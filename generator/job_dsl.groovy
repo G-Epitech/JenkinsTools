@@ -1,4 +1,4 @@
-job("$REPO_NAME") {
+job("Epitech/$REPO_NAME") {
   description("Generated job for $REPO_NAME project")
 
   wrappers {
