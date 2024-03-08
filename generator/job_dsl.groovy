@@ -19,29 +19,37 @@ job("Epitech/$REPO_NAME") {
   }
 
   steps {
-    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make fclean')
-    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make')
-    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make tests_run')
-    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make clean')
+    conditionalSteps {
+      condition {
+        stringsMatch("TYPE", 'Makefile', false)
+      }
+
+      steps {
+        shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make fclean')
+        shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make')
+        shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make tests_run')
+        shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make clean')
+      }
+    }
   }
 
   publishers {
-      gitHubCommitStatusSetter {
-        commitShaSource {
-          buildDataRevisionShaSource()
-        }
-        contextSource {
-          defaultCommitContextSource()
-        }
-        reposSource {
-          anyDefinedRepositorySource()
-        }
-        statusBackrefSource {
-          buildRefBackrefSource()
-        }
-        statusResultSource {
-          defaultStatusResultSource()
-        }
+    gitHubCommitStatusSetter {
+      commitShaSource {
+        buildDataRevisionShaSource()
       }
+      contextSource {
+        defaultCommitContextSource()
+      }
+      reposSource {
+        anyDefinedRepositorySource()
+      }
+      statusBackrefSource {
+        buildRefBackrefSource()
+      }
+      statusResultSource {
+        defaultStatusResultSource()
+      }
+    }
   }
 }
