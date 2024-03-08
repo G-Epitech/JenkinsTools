@@ -26,6 +26,22 @@ job("Epitech/$REPO_NAME") {
   }
 
   publishers {
-      githubCommitNotifier()
+      gitHubCommitStatusSetter {
+        commitShaSource {
+          buildDataRevisionShaSource()
+        }
+        contextSource {
+          defaultCommitContextSource()
+        }
+        reposSource {
+          anyDefinedRepositorySource()
+        }
+        statusBackrefSource {
+          buildRefBackrefSource()
+        }
+        statusResultSource {
+          defaultStatusResultSource()
+        }
+      }
   }
 }
