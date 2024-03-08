@@ -19,10 +19,10 @@ job("Epitech/$REPO_NAME") {
   }
 
   steps {
-    shell('make fclean')
-    shell('make')
-    shell('make tests_run')
-    shell('make clean')
+    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make fclean')
+    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make')
+    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make tests_run')
+    shell('docker run --rm -v "$PWD:/usr/app" epitechcontent/epitest-docker make clean')
   }
 
   publishers {
